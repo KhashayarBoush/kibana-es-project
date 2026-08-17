@@ -1,0 +1,27 @@
+services:
+  debian-xerxes:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: debian-xerxes
+    hostname: xerxes-host
+    stdin_open: true
+    tty: true
+    command: ["/bin/bash"]
+    networks:
+      appnet:
+        ipv4_address: 172.20.0.10
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    environment:
+      TZ: UTC
+    restart: unless-stopped
+
+networks:
+  appnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+          gateway: 172.20.0.1
